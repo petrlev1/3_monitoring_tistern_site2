@@ -23,11 +23,13 @@
 
 
 <li class="all_table_l" ng-cloak>
+    <div class="logo_search">
     <div class="logo">
         <img src="/Content/front-content/css/img/logo.png">
         <div>Система мониторинга автоцистерн</div>
 
     </div>
+        </div>
 
     <form class="navbar-form" role="search" style="text-align:center">
         <div class="input-group">
@@ -154,10 +156,11 @@
 
     <div class="table_bottom">
         <ul>
-            <li style="border-right:1px #d8def6 solid">
+            <li>
                 <div class="org_name" ng-cloak>
                     Организация {{ SelectedObject.ShortName || SelectedObject.Organisation.ShortName }}<span ng-if="SelectedObject.ObjectType === 'Controller'">, № авто {{SelectedObject.CarNumber}}</span>
                 </div>
+                <div class="table1_cont">
                 <div class="table1">
                     <style>
                         ul.selected {
@@ -187,6 +190,7 @@
                         <li ng-cloak>{{controller.GpsPoint.EgaisSyncTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy' : '+0600'}}</li>
                         <li ng-cloak>{{controller.GpsPoint.BatVoltage}}</li>
                     </ul>
+                </div>
                 </div>
             </li>
 
