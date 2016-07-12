@@ -1,273 +1,326 @@
-
 <!DOCTYPE html>
 <html>
-    <head>
-		<title></title>
+<head>
+    <title>Текущие данные (навигация)</title>
 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=0.5, user-scalable=no">
+    <meta charset="utf-8">
 
-<script src="js/jquery.min.js"></script>
+    <script src="/Content/front-content/js/jquery.min.js"></script>
+
+    <link href="/Content/front-content/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="/Content/front-content/js/bootstrap.min.js"></script>
+
+    <link href="/Content/front-content/css/style.css" rel="stylesheet" type="text/css">
+
+    <link href="/Content/angular-google-maps-style.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<body>
+
+<div class="all_table" ng-app="askpApp" ng-controller="egaisController">
+    <ul>
         
-<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-<script src="js/bootstrap.min.js"></script>
 
-<link href="css/style.css" rel="stylesheet" type="text/css">
-        
-        
-	</head>
 
-	<body>
-                <div class="logo_search">
-                <div class="logo"><img src="css/img/logo.png">
-                    <div>Система мониторинга автоцистерн</div>
+<li class="all_table_l" ng-cloak>
+    <div class="logo_search">
+        <div class="logo">
+            <img src="/Content/front-content/css/img/logo.png">
+            <div>Система мониторинга автоцистерн</div>
+
+        </div>
+    </div>
+
+        <form class="navbar-form" role="search" style="text-align: center">
+            <div class="input-group">
+                <input type="text" ng-model="SearchOrgsByNameText" ng-change="OrgsSearchTextChanged()" class="form-control" placeholder="Поиск организации" name="srch-term" id="srch-term">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                 </div>
-               
-                <form role="search" style="text-align:center">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Поиск организации" name="srch-term" id="srch-term">
-            <div class="input-group-btn">
-                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+            </div>
+        </form>
+
+        <div class="org_tree" ng-cloak>
+            <div class="org_tree_block" ng-show="OrgsAreLoading">
+                <ul>
+                    <li>
+                        <div style="text-align: center; padding: 20px;">
+                            <img src="/Content/front-content/css/img/482.gif">
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div ng-repeat="org in Organisations | filter: {ShortName : SearchOrgsByNameText} | orderBy:ShortName" ng-cloak>
+                <a href="" class="org_tree_tit {{OrganisationIsOpenedToTriangleCssClass(org.opened)}} {{GetSelectedItemCssClass(org, SelectedObject)}}" ng-click="SetSelectedObject(org);" ng-cloak>{{org.ShortName}}</a>
+
+                <div class="org_tree_block" ng-show="org.opened">
+
+                    <ul>
+                        <label ng-repeat="controller in org.Controllers" class="{{GetSelectedItemCssClass(controller, SelectedObject)}}" ng-click="SetSelectedObject(controller);">
+                            <li class="l1">
+                                <input type="checkbox" ng-model="controller.isChoosen" ng-click="AddOrRemoveController(controller)" class="{{IsVisible(IsNavigation('Monitoring', 'Index'))}}" />
+                            </li>
+                            <li class="l2" ng-cloak>{{controller.Index}}</li>
+                            <li>
+                                <div class="icons">
+                                    <span ng-cloak>
+                                        <img src="{{ImgSimCardIsPaidTo(controller.SimCardIsPaidTo)}}" />
+                                        <p ng-cloak>Сим-карта оплачена до {{controller.SimCardIsPaidTo | aspnetJsonToDate | toLocalDateString| date: 'HH:mm:ss dd.MM.yyyy'}} г.</p>
+                                    </span>
+                                    <span ng-cloak>
+                                        <img src="{{BatteryToImage(controller.GpsPoint.BatVoltage)}}" />
+                                        <p ng-cloak>Заряд батареи {{controller.GpsPoint.BatVoltage}}%</p>
+                                    </span>
+                                    <span ng-cloak>
+                                        <img src="{{IsPaidToImage(controller.IsPaidTo)}}" />
+                                        <p ng-cloak>ТО оплачено до: {{controller.IsPaidTo | aspnetJsonToDate | toLocalDateString | date: 'HH:mm:ss dd.MM.yyyy'}} г.</p>
+                                    </span>
+                                    <span ng-cloak>
+                                        <img src="{{GpsNsatToImage(controller.GpsPoint.Nsat)}}" />
+                                        <p ng-cloak>Кол-во видимых спутников: {{controller.GpsPoint.Nsat}}</p>
+                                    </span>
+                                    <span ng-cloak>
+                                        <img src="{{GprsTimeSpanToImage(controller.GpsPoint.ServerUtcTime, controller.GpsPoint.UtcTime)}}" />
+                                        <p ng-cloak>Вр. посл. синхр. GPS: {{controller.GpsPoint.UtcTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy' : '+0600'}}</p>
+                                    </span>
+                                    <span ng-cloak>
+                                        <img src="{{GprsTimeSpanToColor(controller.GpsPoint.ServerTime, controller.GpsPoint.ServerCurrentTime)}}" />
+                                        <p ng-cloak>Вр.посл.синх.АСКП: {{controller.GpsPoint.ServerTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy'}}</p>
+                                    </span>
+                                    <span ng-cloak>
+                                        <img src="{{GprsEgaisTimeSpanToColor(controller.GpsPoint.EgaisSyncTime, controller.GpsPoint.ServerCurrentUtcTime)}}" />
+                                        <p ng-cloak>Вр.посл.синх.ЕГАИС: {{controller.GpsPoint.EgaisSyncTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy' : '+0600'}}</p>
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="l4">
+                                <nobr ng-cloak>{{controller.CarNumber | lowercase}}</nobr>
+                            </li>
+                        </label>
+                    </ul>
+
+
+                </div>
             </div>
         </div>
-                    </form>
+
+</li>
+
+        <li class="all_table_r">
+            <div class="head">
+    <div class="head_menu">
+        <a href="/">ТЕКУЩИЕ ДАННЫЕ (НАВИГАЦИЯ)</a>
+        <a href="/Monitoring/AskpEgais">ИСТОРИЯ(АСКП/ЕГАИС)</a>
+
+            <a href="/Monitoring/GpsPointsCache">КЭШ АНАЛИЗАТОР</a>
+            <a href="/Admin">АДМИНКА</a>           
+
+        <a href="/Home/Logout">test999 [Выйти]</a>
+    </div>
+</div>
+
+
+            
+
+<style>
+   
+    </style>
+<div class="map">
+    <div id="map_canvas">
+        <ui-gmap-google-map  center="map.center" zoom="map.zoom" draggable="true" options="map.options" ng-cloak>
+            <ui-gmap-markers models="markers" coords="'self'" modelsbyref="false" options="'options'" click="onClick">
+                <ui-gmap-windows show="show">
+                    <div ng-non-bindable>
+                        <div>
+                            <div>
+                                <strong>Организация:</strong> {{gpsPointInfo.OrganisationName}}
+                            </div>
+                            <div>
+                                <strong>Гос.номер:</strong> {{gpsPointInfo.CarNumber | lowercase}}
+                            </div>
+                            <div>
+                                <strong>Время GPS:</strong> {{gpsPointInfo.UtcTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy'}}
+                            </div>
+                            <div>
+                                <strong>Посл.поступ.данных: </strong> {{gpsPointInfo.ServerTime| aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy'}} (АСКП)
+                            </div>
+                            <div>
+                                <strong>Посл.поступ.данных:</strong> {{gpsPointInfo.EgaisSyncTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy' : '+0600'}} (ЕГАИС)
+                            </div>
+                        </div>
+                    </div>
+                </ui-gmap-windows>
+            </ui-gmap-markers>
+        </ui-gmap-google-map>
+    </div>
+</div>
+
+<div class="bottom_cont">
+
+    <div class="table_bottom">
+        <ul>
+            <li>
+                <div class="org_name" ng-cloak ng-if="SelectedChoosenController">
+                    Организация
+                    <strong ng-cloak>
+                        {{ SelectedChoosenController.Organisation.ShortName }}
+                    </strong>
+                    <span ng-if="SelectedChoosenController" ng-cloak>, № авто 
+                        <strong ng-cloak>
+                            {{SelectedChoosenController.CarNumber}}
+                        </strong>
+                    </span>
+                </div>
+                
+                <div class="table1_cont">
+                    <div class="table1">
+                        <style>
+                            ul.selected {
+                                font-weight: bold;
+                            }
+                        </style>
+
+                        <ul class="table1_title">
+                            <li>№</li>
+                            <li>Организация</li>
+                            <li>Гос.№</li>
+                            <li>Число спутников</li>
+                            <li>V, км/ч</li>
+                            <li>Вр.синх.GPS</li>
+                            <li>Вр.синх.GSM (АСКП)</li>
+                            <li>Вр.синх.GSM (ЕГАИС)</li>
+                            <li>Батарея,%</li>
+                        </ul>
+                        <ul ng-repeat="controller in SelectedControllers" class="{{GetSelectedItemCssClass(controller, SelectedChoosenController)}}" ng-click="SetSelectedChoosenController(controller)">
+                            <li ng-cloak>{{controller.IndexInOrgChar}}</li>
+                            <li ng-cloak>{{controller.Organisation.ShortName}}</li>
+                            <li ng-cloak>{{controller.CarNumber | lowercase}}</li>
+                            <li ng-cloak>{{controller.GpsPoint.Nsat}}</li>
+                            <li ng-cloak>{{controller.GpsPoint.Speed}}</li>
+                            <li ng-cloak>{{controller.GpsPoint.UtcTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy' : '+0600'}}</li>
+                            <li ng-cloak>{{controller.GpsPoint.ServerTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy'}}</li>
+                            <li ng-cloak>{{controller.GpsPoint.EgaisSyncTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy' : '+0600'}}</li>
+                            <li ng-cloak>{{controller.GpsPoint.BatVoltage}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+
+            <li class="table_bottom_r">
+                <div class="block_br">
+
+
+                    <input type="radio" name="gender" class="link1but1" id="link1but1_id">
+                    <input type="radio" name="gender" class="link1but2" id="link1but2_id" checked>
+
+
+                    <label for="link1but2_id" class="link1but2_id">КОНТРОЛЛЕР</label> <label for="link1but1_id" class="link1but1_id">ЦИСТЕРНА</label>
+
+
+                    <div class="block_tisterna">
+                        <div class="tit1">ЦИСТЕРНА</div>
+                        <div class="table2">
+                            <ul class="table1_title">
+                                <li>№</li>
+                                <li>Ур., %</li>
+                                <li>Темп., °С</li>
+                                <li>Плот. кг/м<sup>3</sup></li>
+                            </ul>
+                            <ul ng-repeat="level in SelectedChoosenController.GpsPoint.Levels">
+                                <li ng-cloak>{{level.Number}}</li>
+                                <li ng-cloak>{{level.LevelValue}}</li>
+                                <li ng-cloak>{{level.Temperature}}</li>
+                                <li ng-cloak>{{level.Density}}</li>
+                            </ul>
+                        </div>
                     </div>
 
-                   <div class="org_tree">
 
-                       <a href="" class="org_tree_tit act">Альб-Фрейт-Компани</a>
 
-                       <div class="org_tree_block">
+                    <div class="block_controllers">
+                        <div class="tit1">КОНТРОЛЛЕР</div>
 
-                           <ul>
-                           <label class="act_item">
-                               <li class="l1"><input type="checkbox" /></li><li class="l2">002</li><li>
-                               <div class="icons">
-                                   <span><img src="css/img/ic1.svg" /><p>Сим-карта оплачена до 15.10.2014 г.</p></span><span><img src="css/img/ic2.svg" /><p>Заряд батареи 0%</p></span><span><img src="css/img/ic3.svg" /><p>ТО оплачено до: 15.10.2014 г.</p></span><span><img src="css/img/ic4.svg" /><p>Кол-во видимых спутников: 13</p></span><span><img src="css/img/ic5.svg" /><p>Вр. посл. синхр. GPS: 14:25:02 20.05.2016</p></span><span><img src="css/img/ic6.svg" /><p>Вр.посл.синх.АСКП: 14:25:52 20.05.2016</p></span><span><img src="css/img/ic7.svg" /><p>Вр.посл.синх.ЕГАИС: 14:29:42 20.05.2016</p></span></div></li><li class="l4"><nobr>ав0318 07</nobr></li>
-                           </label>
-                           </ul>
-                           <ul>
-                           <label>
-                               <li class="l1"><input type="checkbox" /></li><li class="l2">002</li><li>
-                               <div class="icons">
-                                   <span><img src="css/img/ic1_red.svg" /><p>Сим-карта не оплачена</p></span><span><img src="css/img/ic2.svg" /><p>Заряд батареи 0%</p></span><span><img src="css/img/ic3.svg" /><p>ТО оплачено до: 15.10.2014 г.</p></span><span><img src="css/img/ic4.svg" /><p>Кол-во видимых спутников: 13</p></span><span><img src="css/img/ic5.svg" /><p>Вр. посл. синхр. GPS: 14:25:02 20.05.2016</p></span><span><img src="css/img/ic6.svg" /><p>Вр.посл.синх.АСКП: 14:25:52 20.05.2016</p></span><span><img src="css/img/ic7.svg" /><p>Вр.посл.синх.ЕГАИС: 14:29:42 20.05.2016</p></span></div></li><li class="l4"><nobr>ав0318 07</nobr></li>
-                           </label>
-                           </ul>
-                           <ul>
-                           <label>
-                               <li class="l1"><input type="checkbox" /></li><li class="l2">002</li><li>
-                               <div class="icons">
-                                   <span><img src="css/img/ic1b.svg" /><p>Сим-карта заблокирована</p></span><span><img src="css/img/ic2.svg" /><p>Заряд батареи 0%</p></span><span><img src="css/img/ic3.svg" /><p>ТО оплачено до: 15.10.2014 г.</p></span><span><img src="css/img/ic4.svg" /><p>Кол-во видимых спутников: 13</p></span><span><img src="css/img/ic5.svg" /><p>Вр. посл. синхр. GPS: 14:25:02 20.05.2016</p></span><span><img src="css/img/ic6.svg" /><p>Вр.посл.синх.АСКП: 14:25:52 20.05.2016</p></span><span><img src="css/img/ic7.svg" /><p>Вр.посл.синх.ЕГАИС: 14:29:42 20.05.2016</p></span></div></li><li class="l4"><nobr>ав0318 07</nobr></li>
-                           </label>
-                           </ul>
-                           <ul>
-                           <label>
-                               <li class="l1"><input type="checkbox" /></li><li class="l2">002</li><li>
-                               <div class="icons">
-                                   <span><img src="css/img/ic1b.svg" /><p>Сим-карта заблокирована</p></span><span><img src="css/img/ic1_red.svg" /><p>Сим-карта не оплачена</p></span><span><img src="css/img/ic2.svg" /><p>Заряд батареи 0%</p></span><span><img src="css/img/ic3.svg" /><p>ТО оплачено до: 15.10.2014 г.</p></span><span><img src="css/img/ic4.svg" /><p>Кол-во видимых спутников: 13</p></span><span><img src="css/img/ic5.svg" /><p>Вр. посл. синхр. GPS: 14:25:02 20.05.2016</p></span><span><img src="css/img/ic6.svg" /><p>Вр.посл.синх.АСКП: 14:25:52 20.05.2016</p></span><span><img src="css/img/ic7.svg" /><p>Вр.посл.синх.ЕГАИС: 14:29:42 20.05.2016</p></span></div></li><li class="l4"><nobr>ав0318 07</nobr></li>
-                           </label>
-                           </ul>
-                           <ul>
-                           <label>
-                               <li class="l1"><input type="checkbox" /></li><li class="l2">002</li><li>
-                               <div class="icons">
-                                   <span><img src="css/img/ic1.svg" /><p>Сим-карта оплачена до 15.10.2014 г.</p></span><span><img src="css/img/ic1_red.svg" /><p>Заряд батареи 0%</p></span><span><img src="css/img/ic1_yellow.svg" /><p>ТО оплачено до: 15.10.2014 г.</p></span><span><img src="css/img/ic1_black.svg" /><p>Кол-во видимых спутников: 13</p></span><span><img src="css/img/ic5.svg" /><p>Вр. посл. синхр. GPS: 14:25:02 20.05.2016</p></span><span><img src="css/img/ic6.svg" /><p>Вр.посл.синх.АСКП: 14:25:52 20.05.2016</p></span><span><img src="css/img/ic7.svg" /><p>Вр.посл.синх.ЕГАИС: 14:29:42 20.05.2016</p></span></div></li><li class="l4"><nobr>ав0318 07</nobr></li>
-                           </label>
-                           </ul>
-                           <ul>
-                           <label>
-                               <li class="l1"><input type="checkbox" /></li><li class="l2">002</li><li>
-                               <div class="icons">
-                                   <span><img src="css/img/ic1.svg" /><p>Сим-карта оплачена до 15.10.2014 г.</p></span><span><img src="css/img/ic2.svg" /><p>Заряд батареи 0%</p></span><span><img src="css/img/ic3.svg" /><p>ТО оплачено до: 15.10.2014 г.</p></span><span><img src="css/img/ic4.svg" /><p>Кол-во видимых спутников: 13</p></span><span><img src="css/img/ic5.svg" /><p>Вр. посл. синхр. GPS: 14:25:02 20.05.2016</p></span><span><img src="css/img/ic6.svg" /><p>Вр.посл.синх.АСКП: 14:25:52 20.05.2016</p></span><span><img src="css/img/ic7.svg" /><p>Вр.посл.синх.ЕГАИС: 14:29:42 20.05.2016</p></span></div></li><li class="l4"><nobr>ав0318 07</nobr></li>
-                           </label>
-                           </ul>
-                           <ul>
-                           <label>
-                               <li class="l1"><input type="checkbox" /></li><li class="l2">002</li><li>
-                               <div class="icons">
-                                   <span><img src="css/img/ic1.svg" /><p>Сим-карта оплачена до 15.10.2014 г.</p></span><span><img src="css/img/ic2.svg" /><p>Заряд батареи 0%</p></span><span><img src="css/img/ic3.svg" /><p>ТО оплачено до: 15.10.2014 г.</p></span><span><img src="css/img/ic4.svg" /><p>Кол-во видимых спутников: 13</p></span><span><img src="css/img/ic5.svg" /><p>Вр. посл. синхр. GPS: 14:25:02 20.05.2016</p></span><span><img src="css/img/ic6.svg" /><p>Вр.посл.синх.АСКП: 14:25:52 20.05.2016</p></span><span><img src="css/img/ic7.svg" /><p>Вр.посл.синх.ЕГАИС: 14:29:42 20.05.2016</p></span></div></li><li class="l4"><nobr>ав0318 07</nobr></li>
-                           </label>
-                           </ul>
-                           <ul>
-                           <label>
-                               <li class="l1"><input type="checkbox" /></li><li class="l2">002</li><li>
-                               <div class="icons">
-                                   <span><img src="css/img/ic1.svg" /><p>Сим-карта оплачена до 15.10.2014 г.</p></span><span><img src="css/img/ic2.svg" /><p>Заряд батареи 0%</p></span><span><img src="css/img/ic3.svg" /><p>ТО оплачено до: 15.10.2014 г.</p></span><span><img src="css/img/ic4.svg" /><p>Кол-во видимых спутников: 13</p></span><span><img src="css/img/ic5.svg" /><p>Вр. посл. синхр. GPS: 14:25:02 20.05.2016</p></span><span><img src="css/img/ic6.svg" /><p>Вр.посл.синх.АСКП: 14:25:52 20.05.2016</p></span><span><img src="css/img/ic7.svg" /><p>Вр.посл.синх.ЕГАИС: 14:29:42 20.05.2016</p></span></div></li><li class="l4"><nobr>ав0318 07</nobr></li>
-                           </label>
-                           </ul>
-                           <ul>
-                           <label>
-                               <li class="l1"><input type="checkbox" /></li><li class="l2">002</li><li>
-                               <div class="icons">
-                                   <span><img src="css/img/ic1.svg" /><p>Сим-карта оплачена до 15.10.2014 г.</p></span><span><img src="css/img/ic2.svg" /><p>Заряд батареи 0%</p></span><span><img src="css/img/ic3.svg" /><p>ТО оплачено до: 15.10.2014 г.</p></span><span><img src="css/img/ic4.svg" /><p>Кол-во видимых спутников: 13</p></span><span><img src="css/img/ic5.svg" /><p>Вр. посл. синхр. GPS: 14:25:02 20.05.2016</p></span><span><img src="css/img/ic6.svg" /><p>Вр.посл.синх.АСКП: 14:25:52 20.05.2016</p></span><span><img src="css/img/ic7.svg" /><p>Вр.посл.синх.ЕГАИС: 14:29:42 20.05.2016</p></span></div></li><li class="l4"><nobr>ав0318 07</nobr></li>
-                           </label>
-                           </ul>
-                           <ul>
-                           <label>
-                               <li class="l1"><input type="checkbox" /></li><li class="l2">002</li><li>
-                               <div class="icons">
-                                   <span><img src="css/img/ic1.svg" /><p>Сим-карта оплачена до 15.10.2014 г.</p></span><span><img src="css/img/ic2.svg" /><p>Заряд батареи 0%</p></span><span><img src="css/img/ic3.svg" /><p>ТО оплачено до: 15.10.2014 г.</p></span><span><img src="css/img/ic4.svg" /><p>Кол-во видимых спутников: 13</p></span><span><img src="css/img/ic5.svg" /><p>Вр. посл. синхр. GPS: 14:25:02 20.05.2016</p></span><span><img src="css/img/ic6.svg" /><p>Вр.посл.синх.АСКП: 14:25:52 20.05.2016</p></span><span><img src="css/img/ic7.svg" /><p>Вр.посл.синх.ЕГАИС: 14:29:42 20.05.2016</p></span></div></li><li class="l4"><nobr>ав0318 07</nobr></li>
-                           </label>
-                           </ul>
-                           <ul>
-                           <label>
-                               <li class="l1"><input type="checkbox" /></li><li class="l2">002</li><li>
-                               <div class="icons">
-                                   <span><img src="css/img/ic1.svg" /><p>Сим-карта оплачена до 15.10.2014 г.</p></span><span><img src="css/img/ic2.svg" /><p>Заряд батареи 0%</p></span><span><img src="css/img/ic3.svg" /><p>ТО оплачено до: 15.10.2014 г.</p></span><span><img src="css/img/ic4.svg" /><p>Кол-во видимых спутников: 13</p></span><span><img src="css/img/ic5.svg" /><p>Вр. посл. синхр. GPS: 14:25:02 20.05.2016</p></span><span><img src="css/img/ic6.svg" /><p>Вр.посл.синх.АСКП: 14:25:52 20.05.2016</p></span><span><img src="css/img/ic7.svg" /><p>Вр.посл.синх.ЕГАИС: 14:29:42 20.05.2016</p></span></div></li><li class="l4"><nobr>ав0318 07</nobr></li>
-                           </label>
-                           </ul>
-   
-                         
-                       </div>
+                        <p><strong>Сер. № контроллера:</strong> {{SelectedChoosenController.SerialNumber}}</p>
+                        <p><strong>АСКП Imei:</strong> {{SelectedChoosenController.Imei}}</p>
+                        <p><strong>ЕГАИС Imei:</strong> {{SelectedChoosenController.EgaisImei}}</p>
+                        <p><strong>Оплата ТО:</strong> {{ConvertDataToExpiredFormat(SelectedChoosenController.IsPaidTo)}}</p>
+                        <p><strong>Оплата Sim-карт:</strong> {{ConvertDataToExpiredFormat(SelectedChoosenController.SimCardIsPaidTo)}}</p>
+                    </div>
 
-                       <a href="" class="org_tree_tit act">Альб-Фрейт-Компани</a>
-                       <div class="org_tree_block">
 
-                           <ul>
-                           <label>
-                               <li class="l2">002</li><li>
-                               <div class="icons">
-                                   <span><img src="css/img/ic1_red.svg" /><p>Сим-карта не оплачена</p></span><span><img src="css/img/ic2.svg" /><p>Заряд батареи 0%</p></span><span><img src="css/img/ic3.svg" /><p>ТО оплачено до: 15.10.2014 г.</p></span><span><img src="css/img/ic4.svg" /><p>Кол-во видимых спутников: 13</p></span><span><img src="css/img/ic5.svg" /><p>Вр. посл. синхр. GPS: 14:25:02 20.05.2016</p></span><span><img src="css/img/ic6.svg" /><p>Вр.посл.синх.АСКП: 14:25:52 20.05.2016</p></span><span><img src="css/img/ic7.svg" /><p>Вр.посл.синх.ЕГАИС: 14:29:42 20.05.2016</p></span></div></li><li class="l4"><nobr>ав0318 07</nobr></li>
-                           </label>
-                           </ul>
 
-                       </div>
 
-                       <a href="" class="org_tree_tit">Альб-Фрейт-Компани</a>                     
-                       <a href="" class="org_tree_tit">Альб-Фрейт-Компани</a>
-                       <a href="" class="org_tree_tit">Альб-Фрейт-Компани</a>  
-                       <a href="" class="org_tree_tit">Альб-Фрейт-Компани</a>                     
-                       <a href="" class="org_tree_tit">Альб-Фрейт-Компани</a>
-                       <a href="" class="org_tree_tit">Альб-Фрейт-Компани</a>
-                       <a href="" class="org_tree_tit">Альб-Фрейт-Компани</a>                     
-                       <a href="" class="org_tree_tit">Альб-Фрейт-Компани</a>
-                       <a href="" class="org_tree_tit">Альб-Фрейт-Компани</a>  
-                       <a href="" class="org_tree_tit">Альб-Фрейт-Компани</a>                     
-                       <a href="" class="org_tree_tit">Альб-Фрейт-Компани</a>
-                       <a href="" class="org_tree_tit">Альб-Фрейт-Компани</a>
-                       <a href="" class="org_tree_tit">Альб-Фрейт-Компани</a>                     
-                       <a href="" class="org_tree_tit">Альб-Фрейт-Компани</a>
-                       <a href="" class="org_tree_tit">Альб-Фрейт-Компани</a>  
-                       <a href="" class="org_tree_tit">Альб-Фрейт-Компани</a>                     
-                       <a href="" class="org_tree_tit">Альб-Фрейт-Компани</a>
-                       <a href="" class="org_tree_tit">Альб-Фрейт-Компани</a>                
-
-                       </div>
-                
-           
-                
-                <div class="head"><div class="head_menu"><a href="#">ТЕКУЩИЕ ДАННЫЕ (НАВИГАЦИЯ)</a><a href="#">ИСТОРИЯ(АСКП/ЕГАИС)</a><a href="#">КЭШ АНАЛИЗАТОР</a><a href="#">ЗАВОДЫ</a><a href="#">АДМИНКА</a><a href="#">test999 [Выйти]</a></div>
                 </div>
-                <div class="map" style="background-image:url(css/img/map.jpg); background-repeat:repeat"></div>
-                    
-                        
-                            <div class="org_name">Организация Альб-Фрейт-Компани, № авто ав0318 07</div>
-                            <div class="table1_cont">
-               <div class="table1">
-                   <ul class="table1_title">
-                       <li>№</li><li>Организация</li><li>Гос.№</li><li>Число спутников</li><li>V, км/ч</li><li>Вр.синх.GPS</li><li>Вр.синх.GSM (АСКП)</li><li>Вр.синх.GSM (ЕГАИС)</li><li>Батарея,%</li>
-                   </ul>
-                   <ul>
-                       <li>141</li><li>Альб-Фрейт-Компани</li><li><nobr>ав0318 07</nobr></li><li>3</li><li>0</li><li>14:25:02<br>20.05.2016</li><li>13:12:37<br>29.01.2016</li><li>13:12:37<br>29.01.2016</li><li>0</li>
-                   </ul>
-                   <ul class="table1_act">
-                       <li>141</li><li>Синергия Маркет Архангельск</li><li><nobr>ав0318 07</nobr></li><li>3</li><li>0</li><li>14:25:02 <br>20.05.2016</li><li>13:12:37<br>29.01.2016</li><li>13:12:37<br>29.01.2016</li><li>0</li>
-                   </ul>
-                   <ul>
-                       <li>141</li><li>Альб-Фрейт-Компани</li><li><nobr>ав0318 07</nobr></li><li>3</li><li>0</li><li>14:25:02<br>20.05.2016</li><li>13:12:37<br>29.01.2016</li><li>13:12:37<br>29.01.2016</li><li>0</li>
-                   </ul>
-                   <ul>
-                       <li>141</li><li>Альб-Фрейт-Компани</li><li><nobr>ав0318 07</nobr></li><li>3</li><li>0</li><li>14:25:02<br>20.05.2016</li><li>13:12:37<br>29.01.2016</li><li>13:12:37<br>29.01.2016</li><li>0</li>
-                   </ul>
-                   <ul class="table1_act">
-                       <li>141</li><li>Синергия Маркет Архангельск</li><li><nobr>ав0318 07</nobr></li><li>3</li><li>0</li><li>14:25:02 <br>20.05.2016</li><li>13:12:37<br>29.01.2016</li><li>13:12:37<br>29.01.2016</li><li>0</li>
-                   </ul>
-                   <ul>
-                       <li>141</li><li>Альб-Фрейт-Компани</li><li><nobr>ав0318 07</nobr></li><li>3</li><li>0</li><li>14:25:02<br>20.05.2016</li><li>13:12:37<br>29.01.2016</li><li>13:12:37<br>29.01.2016</li><li>0</li>
-                   </ul>
-                   <ul class="table1_act">
-                       <li>141</li><li>Синергия Маркет Архангельск</li><li><nobr>ав0318 07</nobr></li><li>3</li><li>0</li><li>14:25:02 <br>20.05.2016</li><li>13:12:37<br>29.01.2016</li><li>13:12:37<br>29.01.2016</li><li>0</li>
-                   </ul>
-                   <ul>
-                       <li>141</li><li>Альб-Фрейт-Компани</li><li><nobr>ав0318 07</nobr></li><li>3</li><li>0</li><li>14:25:02<br>20.05.2016</li><li>13:12:37<br>29.01.2016</li><li>13:12:37<br>29.01.2016</li><li>0</li>
-                   </ul>
-                   
-               </div>
-                            </div>
-                       
+            </li>
 
-                       
-                            <div class="block_br">
-                            
-                               
-                                <input type="radio" name="gender" class="link1but1" id="link1but1_id" >
-                                <input type="radio" name="gender" class="link1but2"  id="link1but2_id" checked>
-
-                                
-                               <label for="link1but2_id" class="link1but2_id">КОНТРОЛЛЕР</label> <label for="link1but1_id" class="link1but1_id">ЦИСТЕРНА</label>
+        </ul>
+    </div>
+</div>
 
 
-                                <div class="block_tisterna">
-                                    <div class="tit1">ЦИСТЕРНА</div>
-                            <div class="table2">
-                   <ul class="table1_title">
-                       <li>№</li><li>Ур., %</li><li>Темп., гр.</li><li>Плот. кг/м3</li>
-                   </ul>
-                   <ul>
-                       <li>1</li><li>0.01</li><li>0.1</li><li>1</li>
-                   </ul>
-                                <ul>
-                       <li>1</li><li>0.01</li><li>0.1</li><li>1</li>
-                   </ul>
-                                <ul>
-                       <li>1</li><li>0.01</li><li>0.1</li><li>1</li>
-                   </ul>
-                                <ul>
-                       <li>1</li><li>0.01</li><li>0.1</li><li>1</li>
-                   </ul>
-                                <ul>
-                       <li>1</li><li>0.01</li><li>0.1</li><li>1</li>
-                   </ul>
-                                <ul>
-                       <li>1</li><li>0.01</li><li>0.1</li><li>1</li>
-                   </ul>
-                                <ul>
-                       <li>1</li><li>0.01</li><li>0.1</li><li>1</li>
-                   </ul>
-                                <ul>
-                       <li>1</li><li>0.01</li><li>0.1</li><li>1</li>
-                   </ul>
-                                <ul>
-                       <li>1</li><li>0.01</li><li>0.1</li><li>1</li>
-                   </ul>
-                                <ul>
-                       <li>1</li><li>0.01</li><li>0.1</li><li>1</li>
-                   </ul>
-                                <ul>
-                       <li>1</li><li>0.01</li><li>0.1</li><li>1</li>
-                   </ul>
-                                
-                                
-               </div>
-                                </div>
+        </li>
+    </ul>
 
-                                
+</div>
 
-                                <div class="block_controllers">
-                                    <div class="tit1">КОНТРОЛЛЕР</div>
+    <script src='/Scripts/angular.js'></script>
+    
+    <script src='/Scripts/lodash.js'></script>
+    <script src='/Scripts/angular-simple-logger.js'></script>
 
-<p><strong>Сер. № контроллера:</strong> e7c3c3ec-f94a-454d-99c2-cf5a75b21fda</p>
-<p><strong>АСКП Imei:</strong> 000000000030869</p>
-<p><strong>ЕГАИС Imei:</strong> 013226002540777</p>
-<p><strong>Оплата ТО:</strong> 22.06.2015 (Просрочено)</p>
-<p><strong>Оплата Sim-карт:</strong> 22.06.2015 (Просрочено)</p>
-                                </div>
-          
-                                
-                                </div>
-     
-                  
-   
+    
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6aTNWCc13m64f6ZfwHMCjc0soXAZAaUE&callback=initMap" async defer></script>
+    
+    <script src='/Scripts/angular-google-maps.js'></script>
+    
+    <script src="/AngularJs/Controllers/egaisController.js"></script>
+    
+
+    <script src="/AngularJs/Filters/aspnetJsonToDate.js"></script>
+    <script src="/AngularJs/Filters/toLocalDateString.js"></script>
+    <script src="/AngularJs/Filters/boolToRussianText.js"></script>
+    <script src="/AngularJs/Filters/toString.js"></script>
+
+    <script src="/AngularJs/Services/egaisViewStateService.js"></script>
+    <script src="/AngularJs/Services/controllerDataToImageService.js"></script>
+
+
+    <script src="/Scripts/jquery.cookie.js"></script>
+
+
+
+    <link rel="stylesheet" href="/Content/kendo/kendo.common.min.css" />
+    <link rel="stylesheet" href="/Content/kendo/kendo.default.min.css" />
+    <link rel="stylesheet" href="/Content/kendo/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="/Content/kendo/kendo.rtl.min.css" />
+    <link rel="stylesheet" href="/Content/kendo/kendo.material.min.css" />
+    <link rel="stylesheet" href="/Content/angular-chart/angular-chart.css"/>
+
+
+    <script src="/Content/kendo/kendo.all.min.js"></script>
+    <script src="/Scripts/cultures/kendo.culture.ru-RU.min.js"></script>
+    <script src="/Content/kendo/kendo-elements.js"></script>
+
+    <script src="/Scripts/linq-js/jquery.linq-vsdoc.js"></script>
+    <script src="/Scripts/linq-js/jquery.linq.js"></script>
+    <script src="/Scripts/linq-js/jquery.linq.min.js"></script>
+    <script src="/Scripts/linq-js/linq-vsdoc.js"></script>
+    <script src="/Scripts/linq-js/linq.js"></script>
+
+    <script src="/Content/WrapBootstrap/js/plugins/chartJs/Chart.min.js"></script>
+    <script src="/Scripts/angular-chart/angular-chart.js"></script>
+
+    <script src="/Scripts/arraySort.js"></script>
+
+    <script src="/Scripts/moment.js"></script>
+    <script src="/Scripts/moment-with-locales.js"></script>
+
+    <script src="/Scripts/date.format.js"></script>
+    <script src="/Scripts/date-extensions.js"></script>
+    <script src="/Scripts/elements-script.js"></script>
+
+
     
 </body>
 
