@@ -29,8 +29,6 @@
             <div>Система мониторинга автоцистерн</div>
 
         </div>
-    </div>
-
         <form role="search" style="text-align: center">
             <div class="input-group">
                 <input type="text" ng-model="SearchOrgsByNameText" ng-change="OrgsSearchTextChanged()" class="form-control" placeholder="Поиск организации" name="srch-term" id="srch-term">
@@ -39,6 +37,8 @@
                 </div>
             </div>
         </form>
+    </div>
+
 
         <div class="org_tree" ng-cloak>
             <div class="org_tree_block" ng-show="OrgsAreLoading">
