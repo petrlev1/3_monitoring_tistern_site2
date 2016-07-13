@@ -129,12 +129,12 @@
         width: 100%;
     }
 </style>
-<div class="hist_cont">
-    <div class="margin1">
-        <h1 style="margin-bottom: 25px;" ng-cloak>
+
+        <div class="org_name" ng-cloak>
             Организация {{ SelectedObject.ShortName || SelectedObject.Organisation.ShortName }}<span ng-if="SelectedObject.ObjectType === 'Controller'" ng-cloak>, № авто {{SelectedObject.CarNumber}}</span>
-        </h1>
-    </div>
+        </div>
+
+<div class="hist_cont">
 
     <input type="radio" name="group1" id="group1_chek1" class="group1_radio1" checked />
     <input type="radio" name="group1" id="group1_chek2" class="group1_radio2">
