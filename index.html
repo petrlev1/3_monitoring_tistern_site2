@@ -188,6 +188,7 @@
                             <li>Вр.синх.GSM (АСКП)</li>
                             <li>Вр.синх.GSM (ЕГАИС)</li>
                             <li>Батарея,%</li>
+                            <li><span style="color:#D5422F; font-weight:100">удл.</span></li>
                         </ul>
                         <ul ng-repeat="controller in SelectedControllers" class="{{GetSelectedItemCssClass(controller, SelectedChoosenController)}}" ng-click="SetSelectedChoosenController(controller)">
                             <li ng-cloak>{{controller.IndexInOrgChar}}</li>
@@ -199,6 +200,7 @@
                             <li ng-cloak>{{controller.GpsPoint.ServerTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy'}}</li>
                             <li ng-cloak>{{controller.GpsPoint.EgaisSyncTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy' : '+0600'}}</li>
                             <li ng-cloak>{{controller.GpsPoint.BatVoltage}}</li>
+                            <li><a href="" class="item_del">-</a></li>
                         </ul>
                     </div>
                 </div>
