@@ -41,7 +41,17 @@
         </form>
     </div>
 
-        <div class="org_tree" ng-cloak>
+    <div class="exp_all_cont">
+        <input type="checkbox" id="exp_all" ng-model="expandAll" ng-click="ToggleExpandAll()"/>
+        <label for="exp_all" class="exp_all">
+            <span>
+                <img src="/Content/front-content/css/img/exp_all.svg" />
+                </span>
+                <p>РАЗВЕРНУТЬ ВСЕ</p>
+        </label>        
+    </div>
+
+    <div class="org_tree" ng-cloak>
             <div class="org_tree_block" ng-show="OrgsAreLoading">
                 <ul>
                     <li>
@@ -66,31 +76,31 @@
                             <li>
                                 <div class="icons">
                                     <span ng-cloak>
-                                        <img src="{{ImgSimCardIsPaidTo(controller.SimCardIsPaidTo)}}" />
+                                        <img ng-cloak src="{{ImgSimCardIsPaidTo(controller.SimCardIsPaidTo)}}" />
                                         <p ng-cloak>Сим-карта оплачена до {{controller.SimCardIsPaidTo | aspnetJsonToDate | toLocalDateString| date: 'HH:mm:ss dd.MM.yyyy'}} г.</p>
                                     </span>
                                     <span ng-cloak>
-                                        <img src="{{BatteryToImage(controller.GpsPoint.BatVoltage)}}" />
+                                        <img ng-cloak src="{{BatteryToImage(controller.GpsPoint.BatVoltage)}}" />
                                         <p ng-cloak>Заряд батареи {{controller.GpsPoint.BatVoltage}}%</p>
                                     </span>
                                     <span ng-cloak>
-                                        <img src="{{IsPaidToImage(controller.IsPaidTo)}}" />
+                                        <img ng-cloak src="{{IsPaidToImage(controller.IsPaidTo)}}" />
                                         <p ng-cloak>ТО оплачено до: {{controller.IsPaidTo | aspnetJsonToDate | toLocalDateString | date: 'HH:mm:ss dd.MM.yyyy'}} г.</p>
                                     </span>
                                     <span ng-cloak>
-                                        <img src="{{GpsNsatToImage(controller.GpsPoint.Nsat)}}" />
+                                        <img ng-cloak src="{{GpsNsatToImage(controller.GpsPoint.Nsat)}}" />
                                         <p ng-cloak>Кол-во видимых спутников: {{controller.GpsPoint.Nsat}}</p>
                                     </span>
                                     <span ng-cloak>
-                                        <img src="{{GprsTimeSpanToImage(controller.GpsPoint.ServerUtcTime, controller.GpsPoint.UtcTime)}}" />
+                                        <img ng-cloak src="{{GprsTimeSpanToImage(controller.GpsPoint.ServerUtcTime, controller.GpsPoint.UtcTime)}}" />
                                         <p ng-cloak>Вр. посл. синхр. GPS: {{controller.GpsPoint.UtcTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy' : '+0600'}}</p>
                                     </span>
                                     <span ng-cloak>
-                                        <img src="{{GprsTimeSpanToColor(controller.GpsPoint.ServerTime, controller.GpsPoint.ServerCurrentTime)}}" />
+                                        <img ng-cloak src="{{GprsTimeSpanToColor(controller.GpsPoint.ServerTime, controller.GpsPoint.ServerCurrentTime)}}" />
                                         <p ng-cloak>Вр.посл.синх.АСКП: {{controller.GpsPoint.ServerTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy'}}</p>
                                     </span>
                                     <span ng-cloak>
-                                        <img src="{{GprsEgaisTimeSpanToColor(controller.GpsPoint.EgaisSyncTime, controller.GpsPoint.ServerCurrentUtcTime)}}" />
+                                        <img ng-cloak src="{{GprsEgaisTimeSpanToColor(controller.GpsPoint.EgaisSyncTime, controller.GpsPoint.ServerCurrentUtcTime)}}" />
                                         <p ng-cloak>Вр.посл.синх.ЕГАИС: {{controller.GpsPoint.EgaisSyncTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy' : '+0600'}}</p>
                                     </span>
                                 </div>
@@ -109,17 +119,19 @@
 </li>
 
         <li class="all_table_r">
+            
             <div class="head">
     <div class="head_menu">
-        <a href="/">ТЕКУЩИЕ ДАННЫЕ (НАВИГАЦИЯ)</a>
-        <a href="/Monitoring/AskpEgais">ИСТОРИЯ(АСКП/ЕГАИС)</a>
 
-            <a href="/Monitoring/GpsPointsCache">КЭШ АНАЛИЗАТОР</a>
-            <a href="/Admin">АДМИНКА</a>           
-
-        <a href="/Home/Logout">test999 [Выйти]</a>
+        
+                <a class="act" href="/Monitoring/AskpEgais">ИСТОРИЯ(АСКП/ЕГАИС)</a>
+                <a href="/">ТЕКУЩИЕ ДАННЫЕ(НАВИГАЦИЯ)</a>
+                <a href="/Monitoring/GpsPointsCache">КЭШ АНАЛИЗАТОР</a>
+                <a href="/Admin">АДМИНКА</a>
+                <a href="/Logout/Home">test999 [Выйти]</a>
     </div>
 </div>
+
 
 
             
@@ -129,12 +141,12 @@
         width: 100%;
     }
 </style>
-
-        <div class="org_name" ng-cloak>
-            Организация {{ SelectedObject.ShortName || SelectedObject.Organisation.ShortName }}<span ng-if="SelectedObject.ObjectType === 'Controller'" ng-cloak>, № авто {{SelectedObject.CarNumber}}</span>
-        </div>
-
 <div class="hist_cont">
+    <div class="margin1">
+        <h1 style="margin-bottom: 25px;" ng-cloak>
+            Организация {{ SelectedObject.ShortName || SelectedObject.Organisation.ShortName }}<span ng-if="SelectedObject.ObjectType === 'Controller'" ng-cloak>, № авто {{SelectedObject.CarNumber}}</span>
+        </h1>
+    </div>
 
     <input type="radio" name="group1" id="group1_chek1" class="group1_radio1" checked />
     <input type="radio" name="group1" id="group1_chek2" class="group1_radio2">
