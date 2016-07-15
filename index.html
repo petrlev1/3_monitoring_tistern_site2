@@ -1,7 +1,8 @@
 <div class="org_tree_block" ng-show="org.opened">
 
-                    <ul>
+                    
                         <!-- ngRepeat: controller in org.Controllers -->
+                       <ul>
                         <label ng-repeat="controller in org.Controllers" class="" ng-click="SetSelectedObject(controller);">
                             <li class="l1">
                                 <input type="checkbox" ng-model="controller.isChoosen" ng-click="AddOrRemoveController(controller)" class="visible">
@@ -43,9 +44,9 @@
                                 <nobr class="ng-binding">ак0054 68</nobr>
                             </li>
                         </label>
+                       </ul>
                         <!-- end ngRepeat: controller in org.Controllers -->
                         
-                    </ul>
 
 
                 </div>
