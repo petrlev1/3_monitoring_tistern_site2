@@ -42,11 +42,16 @@
     </div>
 
     <div class="exp_all_cont">
-                       <input type="checkbox" id="exp_all" />
-                       <label for="exp_all" class="exp_all"><span><img src="css/img/exp_all.svg" /></span><p>РАЗВЕРНУТЬ ВСЕ</p></label>
-                       </div>
+        <input type="checkbox" id="exp_all" ng-model="expandAll" ng-click="ToggleExpandAll()"/>
+        <label for="exp_all" class="exp_all">
+            <span>
+                <img src="/Content/front-content/css/img/exp_all.svg" />
+                </span>
+                <p>РАЗВЕРНУТЬ ВСЕ</p>
+        </label>        
+    </div>
 
-        <div class="org_tree" ng-cloak>
+    <div class="org_tree" ng-cloak>
             <div class="org_tree_block" ng-show="OrgsAreLoading">
                 <ul>
                     <li>
@@ -71,31 +76,31 @@
                             <li>
                                 <div class="icons">
                                     <span ng-cloak>
-                                        <img src="{{ImgSimCardIsPaidTo(controller.SimCardIsPaidTo)}}" />
+                                        <img ng-cloak src="{{ImgSimCardIsPaidTo(controller.SimCardIsPaidTo)}}" />
                                         <p ng-cloak>Сим-карта оплачена до {{controller.SimCardIsPaidTo | aspnetJsonToDate | toLocalDateString| date: 'HH:mm:ss dd.MM.yyyy'}} г.</p>
                                     </span>
                                     <span ng-cloak>
-                                        <img src="{{BatteryToImage(controller.GpsPoint.BatVoltage)}}" />
+                                        <img ng-cloak src="{{BatteryToImage(controller.GpsPoint.BatVoltage)}}" />
                                         <p ng-cloak>Заряд батареи {{controller.GpsPoint.BatVoltage}}%</p>
                                     </span>
                                     <span ng-cloak>
-                                        <img src="{{IsPaidToImage(controller.IsPaidTo)}}" />
+                                        <img ng-cloak src="{{IsPaidToImage(controller.IsPaidTo)}}" />
                                         <p ng-cloak>ТО оплачено до: {{controller.IsPaidTo | aspnetJsonToDate | toLocalDateString | date: 'HH:mm:ss dd.MM.yyyy'}} г.</p>
                                     </span>
                                     <span ng-cloak>
-                                        <img src="{{GpsNsatToImage(controller.GpsPoint.Nsat)}}" />
+                                        <img ng-cloak src="{{GpsNsatToImage(controller.GpsPoint.Nsat)}}" />
                                         <p ng-cloak>Кол-во видимых спутников: {{controller.GpsPoint.Nsat}}</p>
                                     </span>
                                     <span ng-cloak>
-                                        <img src="{{GprsTimeSpanToImage(controller.GpsPoint.ServerUtcTime, controller.GpsPoint.UtcTime)}}" />
+                                        <img ng-cloak src="{{GprsTimeSpanToImage(controller.GpsPoint.ServerUtcTime, controller.GpsPoint.UtcTime)}}" />
                                         <p ng-cloak>Вр. посл. синхр. GPS: {{controller.GpsPoint.UtcTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy' : '+0600'}}</p>
                                     </span>
                                     <span ng-cloak>
-                                        <img src="{{GprsTimeSpanToColor(controller.GpsPoint.ServerTime, controller.GpsPoint.ServerCurrentTime)}}" />
+                                        <img ng-cloak src="{{GprsTimeSpanToColor(controller.GpsPoint.ServerTime, controller.GpsPoint.ServerCurrentTime)}}" />
                                         <p ng-cloak>Вр.посл.синх.АСКП: {{controller.GpsPoint.ServerTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy'}}</p>
                                     </span>
                                     <span ng-cloak>
-                                        <img src="{{GprsEgaisTimeSpanToColor(controller.GpsPoint.EgaisSyncTime, controller.GpsPoint.ServerCurrentUtcTime)}}" />
+                                        <img ng-cloak src="{{GprsEgaisTimeSpanToColor(controller.GpsPoint.EgaisSyncTime, controller.GpsPoint.ServerCurrentUtcTime)}}" />
                                         <p ng-cloak>Вр.посл.синх.ЕГАИС: {{controller.GpsPoint.EgaisSyncTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy' : '+0600'}}</p>
                                     </span>
                                 </div>
@@ -114,24 +119,24 @@
 </li>
 
         <li class="all_table_r">
+            
             <div class="head">
     <div class="head_menu">
-        <a href="/">ТЕКУЩИЕ ДАННЫЕ (НАВИГАЦИЯ)</a>
-        <a href="/Monitoring/AskpEgais">ИСТОРИЯ(АСКП/ЕГАИС)</a>
 
-            <a href="/Monitoring/GpsPointsCache">КЭШ АНАЛИЗАТОР</a>
-            <a href="/Admin">АДМИНКА</a>           
-
-        <a href="/Home/Logout">test999 [Выйти]</a>
+        
+                <a class="act" href="/">ТЕКУЩИЕ ДАННЫЕ(НАВИГАЦИЯ)</a>
+                <a href="/Monitoring/AskpEgais">ИСТОРИЯ(АСКП/ЕГАИС)</a>
+                <a href="/Monitoring/GpsPointsCache">КЭШ АНАЛИЗАТОР</a>
+                <a href="/Admin">АДМИНКА</a>
+                <a href="/Logout/Home">test999 [Выйти]</a>
     </div>
 </div>
 
 
+
             
 
-<style>
-   
-    </style>
+
 <div class="map">
     <div id="map_canvas">
         <ui-gmap-google-map  center="map.center" zoom="map.zoom" draggable="true" options="map.options" ng-cloak>
@@ -163,98 +168,99 @@
 </div>
 
 
-                <div class="org_name" ng-cloak ng-if="SelectedChoosenController">
-                    Организация
-                    <strong ng-cloak>
-                        {{ SelectedChoosenController.Organisation.ShortName }}
-                    </strong>
-                    <span ng-if="SelectedChoosenController" ng-cloak>, № авто 
-                        <strong ng-cloak>
-                            {{SelectedChoosenController.CarNumber}}
-                        </strong>
-                    </span>
-                </div>
-                
-                <div class="table1_cont">
-                    <div class="table1">
-                        <style>
-                            ul.selected {
-                                font-weight: bold;
-                            }
-                        </style>
-
-                        <ul class="table1_title">
-                            <li>№</li>
-                            <li>Организация</li>
-                            <li>Гос.№</li>
-                            <li>Число спутников</li>
-                            <li>V, км/ч</li>
-                            <li>Вр.синх.GPS</li>
-                            <li>Вр.синх.GSM (АСКП)</li>
-                            <li>Вр.синх.GSM (ЕГАИС)</li>
-                            <li>Батарея,%</li>
-                            <li><span style="color:#D5422F; font-weight:100">удл.</span></li>
-                        </ul>
-                        <ul ng-repeat="controller in SelectedControllers" class="{{GetSelectedItemCssClass(controller, SelectedChoosenController)}}" ng-click="SetSelectedChoosenController(controller)">
-                            <li ng-cloak>{{controller.IndexInOrgChar}}</li>
-                            <li ng-cloak>{{controller.Organisation.ShortName}}</li>
-                            <li ng-cloak>{{controller.CarNumber | lowercase}}</li>
-                            <li ng-cloak>{{controller.GpsPoint.Nsat}}</li>
-                            <li ng-cloak>{{controller.GpsPoint.Speed}}</li>
-                            <li ng-cloak>{{controller.GpsPoint.UtcTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy' : '+0600'}}</li>
-                            <li ng-cloak>{{controller.GpsPoint.ServerTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy'}}</li>
-                            <li ng-cloak>{{controller.GpsPoint.EgaisSyncTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy' : '+0600'}}</li>
-                            <li ng-cloak>{{controller.GpsPoint.BatVoltage}}</li>
-                            <li><a href="" class="item_del">-</a></li>
-                        </ul>
-                    </div>
-                </div>
-            
-                <div class="block_br">
-
-
-                    <input type="radio" name="gender" class="link1but1" id="link1but1_id">
-                    <input type="radio" name="gender" class="link1but2" id="link1but2_id" checked>
-
-
-                    <label for="link1but2_id" class="link1but2_id">КОНТРОЛЛЕР</label> <label for="link1but1_id" class="link1but1_id">ЦИСТЕРНА</label>
-
-
-                    <div class="block_tisterna">
-                        <div class="tit1">ЦИСТЕРНА</div>
-                        <div class="table2">
-                            <ul class="table1_title">
-                                <li>№</li>
-                                <li>Ур., %</li>
-                                <li>Темп., °С</li>
-                                <li>Плот. кг/м<sup>3</sup></li>
-                            </ul>
-                            <ul ng-repeat="level in SelectedChoosenController.GpsPoint.Levels">
-                                <li ng-cloak>{{level.Number}}</li>
-                                <li ng-cloak>{{level.LevelValue}}</li>
-                                <li ng-cloak>{{level.Temperature}}</li>
-                                <li ng-cloak>{{level.Density}}</li>
-                            </ul>
-                        </div>
-                    </div>
+<div class="org_name" ng-cloak ng-if="SelectedChoosenController">
+    Организация
+    <strong ng-cloak>
+        {{ SelectedChoosenController.Organisation.ShortName }}
+    </strong>
+    <span ng-if="SelectedChoosenController" ng-cloak>, № авто 
+        <strong ng-cloak>
+            {{SelectedChoosenController.CarNumber}}
+        </strong>
+    </span>
+</div>
 
 
 
-                    <div class="block_controllers">
-                        <div class="tit1">КОНТРОЛЛЕР</div>
+<div class="table1_cont" ng-if="SelectedControllers.length" ng-cloak>
+    <div class="table1">
+        <style>
+            ul.selected {
+                font-weight: bold;
+            }
+        </style>
 
-                        <p><strong>Сер. № контроллера:</strong> {{SelectedChoosenController.SerialNumber}}</p>
-                        <p><strong>АСКП Imei:</strong> {{SelectedChoosenController.Imei}}</p>
-                        <p><strong>ЕГАИС Imei:</strong> {{SelectedChoosenController.EgaisImei}}</p>
-                        <p><strong>Оплата ТО:</strong> {{ConvertDataToExpiredFormat(SelectedChoosenController.IsPaidTo)}}</p>
-                        <p><strong>Оплата Sim-карт:</strong> {{ConvertDataToExpiredFormat(SelectedChoosenController.SimCardIsPaidTo)}}</p>
-                    </div>
+        <ul class="table1_title">
+            <li>№</li>
+            <li>Организация</li>
+            <li>Гос.№</li>
+            <li>Число спутников</li>
+            <li>V, км/ч</li>
+            <li>Вр.синх.GPS</li>
+            <li>Вр.синх.GSM (АСКП)</li>
+            <li>Вр.синх.GSM (ЕГАИС)</li>
+            <li>Батарея,%</li>
+            <li><span style="color:#D5422F; font-weight:100">удл.</span></li>
+        </ul>
+        <ul ng-repeat="controller in SelectedControllers" class="{{GetSelectedItemCssClass(controller, SelectedChoosenController)}}" ng-click="SetSelectedChoosenController(controller)">
+            <li ng-cloak>{{controller.IndexInOrgChar}}</li>
+            <li ng-cloak>{{controller.Organisation.ShortName}}</li>
+            <li ng-cloak>{{controller.CarNumber | lowercase}}</li>
+            <li ng-cloak>{{controller.GpsPoint.Nsat}}</li>
+            <li ng-cloak>{{controller.GpsPoint.Speed}}</li>
+            <li ng-cloak>{{controller.GpsPoint.UtcTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy' : '+0600'}}</li>
+            <li ng-cloak>{{controller.GpsPoint.ServerTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy'}}</li>
+            <li ng-cloak>{{controller.GpsPoint.EgaisSyncTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy' : '+0600'}}</li>
+            <li ng-cloak>{{controller.GpsPoint.BatVoltage}}</li>
+            <li ng-cloak><a href="" class="item_del" ng-click="controller.isChoosen=false;AddOrRemoveController(controller)">-</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="block_br">
+
+
+    <input type="radio" name="gender" class="link1but1" id="link1but1_id">
+    <input type="radio" name="gender" class="link1but2" id="link1but2_id" checked>
+
+
+    <label for="link1but2_id" class="link1but2_id">КОНТРОЛЛЕР</label> <label for="link1but1_id" class="link1but1_id">ЦИСТЕРНА</label>
+
+
+    <div class="block_tisterna">
+        <div class="tit1">ЦИСТЕРНА</div>
+        <div class="table2">
+            <ul class="table1_title">
+                <li>№</li>
+                <li>Ур., %</li>
+                <li>Темп., °С</li>
+                <li>Плот. кг/м<sup>3</sup></li>
+            </ul>
+            <ul ng-repeat="level in SelectedChoosenController.GpsPoint.Levels">
+                <li ng-cloak>{{level.Number}}</li>
+                <li ng-cloak>{{level.LevelValue}}</li>
+                <li ng-cloak>{{level.Temperature}}</li>
+                <li ng-cloak>{{level.Density}}</li>
+            </ul>
+        </div>
+    </div>
+
+
+
+    <div class="block_controllers">
+        <div class="tit1">КОНТРОЛЛЕР</div>
+
+        <p ng-cloak><strong>Сер. № контроллера:</strong> {{SelectedChoosenController.SerialNumber}}</png-cloak>
+        <p ng-cloak><strong>АСКП Imei:</strong> {{SelectedChoosenController.Imei}}</p>
+        <p ng-cloak><strong>ЕГАИС Imei:</strong> {{SelectedChoosenController.EgaisImei}}</p>
+        <p ng-cloak><strong>Оплата ТО:</strong> {{ConvertDataToExpiredFormat(SelectedChoosenController.IsPaidTo)}}</p>
+        <p ng-cloak><strong>Оплата Sim-карт:</strong> {{ConvertDataToExpiredFormat(SelectedChoosenController.SimCardIsPaidTo)}}</p>
+    </div>
 
 
 
 
-                </div>
-            
+</div>
 
 
         </li>
