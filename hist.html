@@ -10,7 +10,7 @@
     <link href="https://centrikt.ru:40001/Content/front-content/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="https://centrikt.ru:40001/Content/front-content/js/bootstrap.min.js"></script>
 
-    <link href="https://centrikt.ru:40001/Content/front-content/css/style.css" rel="stylesheet" type="text/css">
+    <link href="style.css" rel="stylesheet" type="text/css">
 
     <link href="https://centrikt.ru:40001/Content/angular-google-maps-style.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -146,13 +146,12 @@
     Организация <strong>{{ SelectedObject.ShortName || SelectedObject.Organisation.ShortName }}</strong><span ng-if="SelectedObject.ObjectType === 'Controller'" ng-cloak>, № авто <strong>{{SelectedObject.CarNumber}}</strong></span>
 </div>
 
-<div class="hist_cont">
+
     <input type="radio" name="group1" id="group1_chek1" class="group1_radio1" checked />
     <input type="radio" name="group1" id="group1_chek2" class="group1_radio2">
 
     <label for="group1_chek1" style="margin-left: 20px;" class="group1_chek1_link links_group1_but" ng-click="SetIsEgais(false);">АСКП</label>
     <label for="group1_chek2" class="group1_chek2_link links_group1_but" ng-click="SetIsEgais(true);">ЕГАИС</label>
-    <div class="links_group1_line"></div>
 
 
 
@@ -252,8 +251,8 @@
 
         <br>
 
-        <div class="margin1">
-            <div>
+        
+            <div class="hist_calend">
                 
                 <span style="font-weight: bold;">C</span>
                 <input type="text" class="date-time-picker start-date" kendo-date-time-picker ng-model="StartTime" value="1" ng-cloak />
@@ -269,12 +268,9 @@
 
             </div>
 
-
-            <br>
-
-            <div class="table_hist">
-                <ul>
-                    <li class="table_hist_l">
+            
+              
+                   
                         <div class="map2">
                             <style>
                                 .map2 .angular-google-map-container {
@@ -310,26 +306,28 @@
                             </div>
 
                         </div>
-                    </li>
-                    <li class="table_hist_r">
+                    
+                    
                         <div class="block1">
-                            <h1>СОБЫТИЯ</h1>
                             <div class="block1_sobit">
+                            <h1>СОБЫТИЯ</h1>
+                                <div class="block1_sobit_cont">
                                 <p ng-repeat="record in LockoilRecords" ng-cloak>
                                     <strong>Дата:</strong> {{record.UtcTime }} <strong>{{ModeToWord(record.RarMode)}}</strong> {{ModeStageToWord(record.ModeStage)}}{{ GetTotal(record.ModeStage, record.SessionTotal) }}
                                 </p>
                             </div>
-                        </div>
-                        <div class="block1">
+                            </div>
+                        <div class="block1_itogi">
                             <h1>ИТОГИ ЗА ПЕРИОД</h1>
-                            <div class="block1_itogi">
+                            <div class="block1_itogi_cont">
                                 <p ng-cloak>Всего - налито: {{total007}} дал, слито: {{total009}} дал.</p>
                                 <p ng-cloak>Скорость - ср: {{ speedmiddle }} км/ч, макс: {{ speedmax }} км/ч, пробег: {{ track }} км</p>
                             </div>
                         </div>
-                    </li>
-                </ul>
-            </div>
+                        </div>
+                   
+               
+          <div class="hist_bottom">
 
             <input type="radio" name="group2" id="group2_chek1" class="group2_radio1" checked />
             <input type="radio" name="group2" id="group2_chek2" class="group2_radio2">
@@ -369,9 +367,9 @@
                 <canvas id="densitychart2" class="chart chart-line" chart-data="speeddata" chart-labels="speedlabels" chart-legend="true" chart-series="speedseries" height="65" chart-options="optionsChart"></canvas>
             </div>
 
-        </div>
     </div>
-</div>
+        </div>
+
 
         </li>
     </ul>
