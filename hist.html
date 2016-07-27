@@ -1,18 +1,18 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>ИСТОРИЯ - АСКП и ЕГАИС</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=0.6, user-scalable=no">
-    <script src="https://centrikt.ru:40001/Content/front-content/js/jquery.min.js"></script>
+    <script src="/Content/front-content/js/jquery.min.js"></script>
 
-    <link href="https://centrikt.ru:40001/Content/front-content/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://centrikt.ru:40001/Content/front-content/js/bootstrap.min.js"></script>
+    <link href="/Content/front-content/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="/Content/front-content/js/bootstrap.min.js"></script>
 
-    <link href="style.css" rel="stylesheet" type="text/css">
+    <link href="/Content/front-content/css/style.css" rel="stylesheet" type="text/css">
 
-    <link href="https://centrikt.ru:40001/Content/angular-google-maps-style.css" rel="stylesheet" type="text/css"/>
+    <link href="/Content/angular-google-maps-style.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
@@ -25,7 +25,7 @@
 <li class="all_table_l" ng-cloak>
     <div class="logo_search">
         <div class="logo">
-            <img src="https://centrikt.ru:40001/Content/front-content/css/img/logo.png">
+            <img src="/Content/front-content/css/img/logo.png">
             <div>Система мониторинга автоцистерн</div>
 
         </div>
@@ -45,7 +45,7 @@
         <input type="checkbox" id="exp_all" ng-model="expandAll" ng-click="ToggleExpandAll()"/>
         <label for="exp_all" class="exp_all">
             <span>
-                <img src="https://centrikt.ru:40001/Content/front-content/css/img/exp_all.svg" />
+                <img src="/Content/front-content/css/img/exp_all.svg" />
                 </span>
                 <p>РАЗВЕРНУТЬ ВСЕ</p>
         </label>        
@@ -56,7 +56,7 @@
                 <ul>
                     <li>
                         <div style="text-align: center; padding: 20px;">
-                            <img src="https://centrikt.ru:40001/Content/front-content/css/img/482.gif">
+                            <img src="/Content/front-content/css/img/482.gif">
                         </div>
                     </li>
                 </ul>
@@ -124,11 +124,11 @@
     <div class="head_menu">
 
         
-                <a class="act" href="https://centrikt.ru:40001/Monitoring/AskpEgais">ИСТОРИЯ(АСКП/ЕГАИС)</a>
-                <a href="https://centrikt.ru:40001/">ТЕКУЩИЕ ДАННЫЕ(НАВИГАЦИЯ)</a>
-                <a href="https://centrikt.ru:40001/Monitoring/GpsPointsCache">КЭШ АНАЛИЗАТОР</a>
-                <a href="https://centrikt.ru:40001/Admin">АДМИНКА</a>
-                <a href="https://centrikt.ru:40001/Home/Logout">test999 [Выйти]</a>
+                <a class="act" href="/Monitoring/AskpEgais">ИСТОРИЯ(АСКП/ЕГАИС)</a>
+                <a href="/">ТЕКУЩИЕ ДАННЫЕ(НАВИГАЦИЯ)</a>
+                <a href="/Monitoring/GpsPointsCache">КЭШ АНАЛИЗАТОР</a>
+                <a href="/Admin">АДМИНКА</a>
+                <a href="/Home/Logout">test999 [Выйти]</a>
     </div>
 </div>
 
@@ -152,6 +152,7 @@
 
     <label for="group1_chek1" style="margin-left: 20px;" class="group1_chek1_link links_group1_but" ng-click="SetIsEgais(false);">АСКП</label>
     <label for="group1_chek2" class="group1_chek2_link links_group1_but" ng-click="SetIsEgais(true);">ЕГАИС</label>
+    
 
 
 
@@ -192,10 +193,10 @@
                 <span>
                     Скачать
                 </span>
-                <a href="https://centrikt.ru:40001/Egais/GetPeriodExcelFile?orgID={{SelectedObject.Organisation.ID}}&contrID={{SelectedObject.ID}}&sensID={{SelectedSensor.ID}}&startTime={{DateToServerFormat(EgaisStartTime)}}&endTime={{DateToServerFormat(EgaisEndTime)}}">
+                <a href="/Egais/GetPeriodExcelFile?orgID={{SelectedObject.Organisation.ID}}&contrID={{SelectedObject.ID}}&sensID={{SelectedSensor.ID}}&startTime={{DateToServerFormat(EgaisStartTime)}}&endTime={{DateToServerFormat(EgaisEndTime)}}">
                     Excel
                 </a>
-                <a href="https://centrikt.ru:40001/Egais/GetPeriodPdfFile?orgID={{SelectedObject.Organisation.ID}}&contrID={{SelectedObject.ID}}&sensID={{SelectedSensor.ID}}&startTime={{DateToServerFormat(EgaisStartTime)}}&endTime={{DateToServerFormat(EgaisEndTime)}}">
+                <a href="/Egais/GetPeriodPdfFile?orgID={{SelectedObject.Organisation.ID}}&contrID={{SelectedObject.ID}}&sensID={{SelectedSensor.ID}}&startTime={{DateToServerFormat(EgaisStartTime)}}&endTime={{DateToServerFormat(EgaisEndTime)}}">
                     pdf
                 </a>
             </div>
@@ -225,7 +226,7 @@
                     <li>Total, дал</li>
                 </ul>
                 <div style="text-align: center; padding: 20px; margin-top: 10px;" ng-show="PeriodReportsAreLoading">
-                    <img src="https://centrikt.ru:40001/Content/front-content/css/img/482.gif">
+                    <img src="/Content/front-content/css/img/482.gif">
                 </div>
 
                 <ul ng-repeat="report in EgaisPeriodReports" ng-cloak>
@@ -249,86 +250,81 @@
 
     <div class="group1_chek1">
 
-        <br>
+    <br>
 
-        
-            <div class="hist_calend">
-                
-                <span style="font-weight: bold;">C</span>
-                <input type="text" class="date-time-picker start-date" kendo-date-time-picker ng-model="StartTime" value="1" ng-cloak />
-                <span style="font-weight: bold;">до</span>
-                <input type="text" class="date-time-picker end-date" kendo-date-time-picker ng-model="EndTime" value="1" ng-cloak />
-                <button class="btn" ng-click="GetHistory()">Построить</button>
+    
+    <div class="hist_calend">
+        <span style="font-weight: bold;">C</span>
+        <input type="text" class="date-time-picker start-date" kendo-date-time-picker ng-model="StartTime" value="1" ng-cloak/>
+        <span style="font-weight: bold;">до</span>
+        <input type="text" class="date-time-picker end-date" kendo-date-time-picker ng-model="EndTime" value="1" ng-cloak/>
+        <button class="btn" ng-click="GetHistory()">Построить</button>
 
-                <img src="https://centrikt.ru:40001/Content/front-content/css/img/482.gif" ng-show="HistoryIsLoading" ng-cloak>
+        <img src="/Content/front-content/css/img/482.gif" ng-show="HistoryIsLoading" ng-cloak>
 
-                <div class="error" ng-show="!HistoryIsLoading && HistoryLoadingError" ng-cloak>
-                    Произошла ошибка во время загрузки данных
+        <div class="error" ng-show="!HistoryIsLoading && HistoryLoadingError" ng-cloak>
+            Произошла ошибка во время загрузки данных
+        </div>
+
+    </div>
+
+    <div class="map2">
+        <style>
+            .map2 .angular-google-map-container {
+                position: static;
+            }
+        </style>
+        <div id="map_canvas_history">
+            <ui-gmap-google-map center="mapHistory.center" zoom="mapHistory.zoom" draggable="true" options="mapHistory.options" ng-cloak>
+                <ui-gmap-markers models="markers" coords="'self'" modelsbyref="false" options="'options'" click="onClick">
+                    <ui-gmap-windows show="show">
+                        <div ng-non-bindable>
+                            <div>
+                                <div>
+                                    <b>Время GPS(МСК):</b> {{gpsPointInfo.UtcTime | aspnetJsonToDate | date: 'HH:mm:ss dd-MM-yyyy' : '+0600'}}
+                                </div>
+                            </div>
+                        </div>
+                    </ui-gmap-windows>
+                </ui-gmap-markers> />
+                <ui-gmap-markers models="egaisEventMarkers" coords="'self'" modelsbyref="false" options="'options'" click="onClick">
+                    <ui-gmap-windows show="show">
+
+                        <div ng-non-bindable>
+                            <div>
+                                <div>{{egaisAskpEvents}}</div>
+                            </div>
+                        </div>
+                    </ui-gmap-windows>
+                </ui-gmap-markers> />
+                <ui-gmap-polyline ng-repeat="p in polylines" path="p.path" stroke="p.stroke" visible='p.visible' geodesic='p.geodesic' fit="false" editable="p.editable" draggable="p.draggable" icons='p.icons'>
+                </ui-gmap-polyline>
+            </ui-gmap-google-map>
+        </div>
+
+    </div>
+             
+        <div class="block1">
+            <div class="block1_sobit">
+                <h1>СОБЫТИЯ</h1>
+                <div class="block1_sobit_cont">
+                    <p ng-repeat="record in LockoilRecords" ng-cloak>
+                        <strong>Дата:</strong> {{record.UtcTime }} <strong>{{ModeToWord(record.RarMode)}}</strong> {{ModeStageToWord(record.ModeStage)}}{{ GetTotal(record.ModeStage, record.SessionTotal) }}
+                    </p>
                 </div>
 
+
             </div>
+            <div class="block1_itogi">
+                <h1>ИТОГИ ЗА ПЕРИОД</h1>
+                <div class="block1_itogi_cont">
+                    <p ng-cloak>Всего - налито: {{total007}} дал, слито: {{total009}} дал.</p>
+                    <p ng-cloak>Скорость - ср: {{ speedmiddle }} км/ч, макс: {{ speedmax }} км/ч, пробег: {{ track }} км</p>
+                </div>
+            </div>
+        </div>
 
-            
-              
-                   
-                        <div class="map2">
-                            <style>
-                                .map2 .angular-google-map-container {
-                                    position: static;
-                                }
-                            </style>
-                            <div id="map_canvas_history">
-                                <ui-gmap-google-map center="mapHistory.center" zoom="mapHistory.zoom" draggable="true" options="mapHistory.options" ng-cloak>
-                                    <ui-gmap-markers models="markers" coords="'self'" modelsbyref="false" options="'options'" click="onClick">
-                                        <ui-gmap-windows show="show">
-                                            <div ng-non-bindable>
-                                                <div>
-                                                    <div>
-                                                        <b>Время GPS(МСК):</b> {{gpsPointInfo.UtcTime | aspnetJsonToDate | date: 'HH:mm:ss dd-MM-yyyy' : '+0600'}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </ui-gmap-windows>
-                                    </ui-gmap-markers> />
-                                    <ui-gmap-markers models="egaisEventMarkers" coords="'self'" modelsbyref="false" options="'options'" click="onClick">
-                                        <ui-gmap-windows show="show">
-
-                                            <div ng-non-bindable>
-                                                <div>
-                                                    <div>{{egaisAskpEvents}}</div>
-                                                </div>
-                                            </div>
-                                        </ui-gmap-windows>
-                                    </ui-gmap-markers> />
-                                    <ui-gmap-polyline ng-repeat="p in polylines" path="p.path" stroke="p.stroke" visible='p.visible' geodesic='p.geodesic' fit="false" editable="p.editable" draggable="p.draggable" icons='p.icons'>
-                                    </ui-gmap-polyline>
-                                </ui-gmap-google-map>
-                            </div>
-
-                        </div>
-                    
-                    
-                        <div class="block1">
-                            <div class="block1_sobit">
-                            <h1>СОБЫТИЯ</h1>
-                                <div class="block1_sobit_cont">
-                                <p ng-repeat="record in LockoilRecords" ng-cloak>
-                                    <strong>Дата:</strong> {{record.UtcTime }} <strong>{{ModeToWord(record.RarMode)}}</strong> {{ModeStageToWord(record.ModeStage)}}{{ GetTotal(record.ModeStage, record.SessionTotal) }}
-                                </p>
-                            </div>
-                            </div>
-                        <div class="block1_itogi">
-                            <h1>ИТОГИ ЗА ПЕРИОД</h1>
-                            <div class="block1_itogi_cont">
-                                <p ng-cloak>Всего - налито: {{total007}} дал, слито: {{total009}} дал.</p>
-                                <p ng-cloak>Скорость - ср: {{ speedmiddle }} км/ч, макс: {{ speedmax }} км/ч, пробег: {{ track }} км</p>
-                            </div>
-                        </div>
-                        </div>
-                   
-               
-          <div class="hist_bottom">
-
+        <div class="hist_bottom">
             <input type="radio" name="group2" id="group2_chek1" class="group2_radio1" checked />
             <input type="radio" name="group2" id="group2_chek2" class="group2_radio2">
             <input type="radio" name="group2" id="group2_chek3" class="group2_radio3">
@@ -343,32 +339,25 @@
             <div class="links_group1_line"></div>
 
 
-            <div class="graphhist group2_chek1">
-                
-                
+            <div class="graphhist group2_chek1">             
                 <canvas id="levelchart" class="chart chart-line" chart-data="leveldata" chart-labels="levellabels" chart-legend="true" chart-series="levelseries" height="65" chart-options="optionsChart"></canvas>
             </div>
 
             <div class="graphhist group2_chek2">
-                
-                
                 <canvas id="tempchart" class="chart chart-line" chart-data="tempdata" chart-labels="templabels" chart-legend="true" chart-series="tempseries" height="65" chart-options="optionsChart"></canvas>
             </div>
 
             <div class="graphhist group2_chek3">
-                
-                
                 <canvas id="densitychart" class="chart chart-line" chart-data="densitydata" chart-labels="densitylabels" chart-legend="true" chart-series="densityseries" height="65" chart-options="optionsChart"></canvas>
             </div>
 
             <div class="graphhist group2_chek4">
-                
-                
                 <canvas id="densitychart2" class="chart chart-line" chart-data="speeddata" chart-labels="speedlabels" chart-legend="true" chart-series="speedseries" height="65" chart-options="optionsChart"></canvas>
             </div>
 
-    </div>
         </div>
+</div>
+
 
 
         </li>
@@ -376,61 +365,61 @@
 
 </div>
 
-    <script src='https://centrikt.ru:40001/Scripts/angular.js'></script>
+    <script src='/Scripts/angular.js'></script>
     
-    <script src='https://centrikt.ru:40001/Scripts/lodash.js'></script>
-    <script src='https://centrikt.ru:40001/Scripts/angular-simple-logger.js'></script>
+    <script src='/Scripts/lodash.js'></script>
+    <script src='/Scripts/angular-simple-logger.js'></script>
 
     
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6aTNWCc13m64f6ZfwHMCjc0soXAZAaUE&callback=initMap" async defer></script>
     
-    <script src='https://centrikt.ru:40001/Scripts/angular-google-maps.js'></script>
+    <script src='/Scripts/angular-google-maps.js'></script>
     
-    <script src="https://centrikt.ru:40001/AngularJs/Controllers/egaisController.js"></script>
+    <script src="/AngularJs/Controllers/egaisController.js"></script>
     
 
-    <script src="https://centrikt.ru:40001/AngularJs/Filters/aspnetJsonToDate.js"></script>
-    <script src="https://centrikt.ru:40001/AngularJs/Filters/toLocalDateString.js"></script>
-    <script src="https://centrikt.ru:40001/AngularJs/Filters/boolToRussianText.js"></script>
-    <script src="https://centrikt.ru:40001/AngularJs/Filters/toString.js"></script>
+    <script src="/AngularJs/Filters/aspnetJsonToDate.js"></script>
+    <script src="/AngularJs/Filters/toLocalDateString.js"></script>
+    <script src="/AngularJs/Filters/boolToRussianText.js"></script>
+    <script src="/AngularJs/Filters/toString.js"></script>
 
-    <script src="https://centrikt.ru:40001/AngularJs/Services/egaisViewStateService.js"></script>
-    <script src="https://centrikt.ru:40001/AngularJs/Services/controllerDataToImageService.js"></script>
-
-
-    <script src="https://centrikt.ru:40001/Scripts/jquery.cookie.js"></script>
+    <script src="/AngularJs/Services/egaisViewStateService.js"></script>
+    <script src="/AngularJs/Services/controllerDataToImageService.js"></script>
 
 
-
-    <link rel="stylesheet" href="https://centrikt.ru:40001/Content/kendo/kendo.common.min.css" />
-    <link rel="stylesheet" href="https://centrikt.ru:40001/Content/kendo/kendo.default.min.css" />
-    <link rel="stylesheet" href="https://centrikt.ru:40001/Content/kendo/kendo.common-material.min.css" />
-    <link rel="stylesheet" href="https://centrikt.ru:40001/Content/kendo/kendo.rtl.min.css" />
-    <link rel="stylesheet" href="https://centrikt.ru:40001/Content/kendo/kendo.material.min.css" />
-    <link rel="stylesheet" href="https://centrikt.ru:40001/Content/angular-chart/angular-chart.css"/>
+    <script src="/Scripts/jquery.cookie.js"></script>
 
 
-    <script src="https://centrikt.ru:40001/Content/kendo/kendo.all.min.js"></script>
-    <script src="https://centrikt.ru:40001/Scripts/cultures/kendo.culture.ru-RU.min.js"></script>
-    <script src="https://centrikt.ru:40001/Content/kendo/kendo-elements.js"></script>
 
-    <script src="https://centrikt.ru:40001/Scripts/linq-js/jquery.linq-vsdoc.js"></script>
-    <script src="https://centrikt.ru:40001/Scripts/linq-js/jquery.linq.js"></script>
-    <script src="https://centrikt.ru:40001/Scripts/linq-js/jquery.linq.min.js"></script>
-    <script src="https://centrikt.ru:40001/Scripts/linq-js/linq-vsdoc.js"></script>
-    <script src="https://centrikt.ru:40001/Scripts/linq-js/linq.js"></script>
+    <link rel="stylesheet" href="/Content/kendo/kendo.common.min.css" />
+    <link rel="stylesheet" href="/Content/kendo/kendo.default.min.css" />
+    <link rel="stylesheet" href="/Content/kendo/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="/Content/kendo/kendo.rtl.min.css" />
+    <link rel="stylesheet" href="/Content/kendo/kendo.material.min.css" />
+    <link rel="stylesheet" href="/Content/angular-chart/angular-chart.css"/>
 
-    <script src="https://centrikt.ru:40001/Content/WrapBootstrap/js/plugins/chartJs/Chart.min.js"></script>
-    <script src="https://centrikt.ru:40001/Scripts/angular-chart/angular-chart.js"></script>
 
-    <script src="https://centrikt.ru:40001/Scripts/arraySort.js"></script>
+    <script src="/Content/kendo/kendo.all.min.js"></script>
+    <script src="/Scripts/cultures/kendo.culture.ru-RU.min.js"></script>
+    <script src="/Content/kendo/kendo-elements.js"></script>
 
-    <script src="https://centrikt.ru:40001/Scripts/moment.js"></script>
-    <script src="https://centrikt.ru:40001/Scripts/moment-with-locales.js"></script>
+    <script src="/Scripts/linq-js/jquery.linq-vsdoc.js"></script>
+    <script src="/Scripts/linq-js/jquery.linq.js"></script>
+    <script src="/Scripts/linq-js/jquery.linq.min.js"></script>
+    <script src="/Scripts/linq-js/linq-vsdoc.js"></script>
+    <script src="/Scripts/linq-js/linq.js"></script>
 
-    <script src="https://centrikt.ru:40001/Scripts/date.format.js"></script>
-    <script src="https://centrikt.ru:40001/Scripts/date-extensions.js"></script>
-    <script src="https://centrikt.ru:40001/Scripts/elements-script.js"></script>
+    <script src="/Content/WrapBootstrap/js/plugins/chartJs/Chart.min.js"></script>
+    <script src="/Scripts/angular-chart/angular-chart.js"></script>
+
+    <script src="/Scripts/arraySort.js"></script>
+
+    <script src="/Scripts/moment.js"></script>
+    <script src="/Scripts/moment-with-locales.js"></script>
+
+    <script src="/Scripts/date.format.js"></script>
+    <script src="/Scripts/date-extensions.js"></script>
+    <script src="/Scripts/elements-script.js"></script>
 
 
     
