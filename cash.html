@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html ng-app="askpApp" ng-controller="egaisController">
+<head>
+    <title>Кеш-анализатор</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=0.6, user-scalable=no">
+    <script src="/Content/front-content/js/jquery.min.js"></script>
+
+    <link href="/Content/front-content/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="/Content/front-content/js/bootstrap.min.js"></script>
+
+    <link href="/Content/front-content/css/style.css" rel="stylesheet" type="text/css">
+
+    <link href="/Content/angular-google-maps-style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    
+    
+    <div class="head">
+    <div class="head_menu">
+
+        
+                <a class="act" href="/Monitoring/GpsPointsCache">КЭШ АНАЛИЗАТОР</a>
+                <a href="/">ТЕКУЩИЕ ДАННЫЕ(НАВИГАЦИЯ)</a>
+                <a href="/Monitoring/AskpEgais">ИСТОРИЯ(АСКП/ЕГАИС)</a>
+                <a href="/Admin">АДМИНКА</a>
+                <a href="/Home/Logout">test999 [Выйти]</a>
+    </div>
+</div>
+
+
+
+<div class="margin1">
+        
+
+
+
+<div style="padding: 15px 0;" ng-cloak>В кэше всего {{lastGpsPointsCache.length}} записей</div>
+
+<div class="table_cash">
+
+    <ul class="table1_title">
+        <li ng-click="Sort(lastGpsPointsCache, 'OrganisationName')">Организация</li>
+        <li ng-click="Sort(lastGpsPointsCache, 'CarNumber')">Номер машины</li>
+        <li ng-click="Sort(lastGpsPointsCache, 'Imei')">Imei</li>
+        <li ng-click="Sort(lastGpsPointsCache, 'Latitude')">Latitude</li>
+        <li ng-click="Sort(lastGpsPointsCache, 'Longitude')">Longitude</li>
+        <li ng-click="Sort(lastGpsPointsCache, 'Nsat')">Nsat</li>
+        <li ng-click="Sort(lastGpsPointsCache, 'Speed')">Скорость</li>
+        <li ng-click="Sort(lastGpsPointsCache, 'IsHistory')">Архивные пакеты</li>
+        <li ng-click="Sort(lastGpsPointsCache, 'UtcTime')">UtcTime</li>
+        <li ng-click="Sort(lastGpsPointsCache, 'ServerTime')">ServerTime</li>
+    </ul>
+    <ul class="{{GetCacheTableTrCssClassByGpsPoint(point)}}" ng-repeat="point in lastGpsPointsCache | orderBy:lastGpsPointsCache.sortField:lastGpsPointsCache.Reverse">
+        <li ng-cloak>{{point.OrganisationName}}</li>
+        <li ng-cloak>{{point.CarNumber | lowercase}}</li>
+        <li ng-cloak>{{point.Imei}}</li>
+        <li ng-cloak>{{point.Latitude}}</li>
+        <li ng-cloak>{{point.Longitude}}</li>
+        <li ng-cloak>{{point.Nsat}}</li>
+        <li ng-cloak>{{point.Speed}}</li>
+        <li ng-cloak>{{point.IsHistory | boolToRussianText}}</li>
+        <li ng-cloak>{{point.UtcTime  | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy'  : '+0600'}}</li>
+        <li ng-cloak>{{point.ServerTime  | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy'}}</li>     
+    </ul>    
+</div>
+    </div>
+
+    <script src='/Scripts/angular.js'></script>
+
+
+    <script src="/Scripts/objects.js"></script>
+    
+    <script src='/Scripts/lodash.js'></script>
+    <script src='/Scripts/angular-simple-logger.js'></script>
+
+    
+    
+    <script src='/Scripts/angular-google-maps.js'></script>
+
+    <script src="/AngularJs/Controllers/egaisController.js"></script>
+    
+
+    <script src="/AngularJs/Filters/aspnetJsonToDate.js"></script>
+    <script src="/AngularJs/Filters/toLocalDateString.js"></script>
+    <script src="/AngularJs/Filters/boolToRussianText.js"></script>
+
+
+    <script src="/AngularJs/Services/egaisViewStateService.js"></script>
+    <script src="/AngularJs/Services/controllerDataToImageService.js"></script>
+
+
+    <script src="/Scripts/jquery.cookie.js"></script>
+
+
+
+    <link rel="stylesheet" href="/Content/kendo/kendo.common.min.css" />
+    <link rel="stylesheet" href="/Content/kendo/kendo.default.min.css" />
+    <link rel="stylesheet" href="/Content/kendo/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="/Content/kendo/kendo.rtl.min.css" />
+    <link rel="stylesheet" href="/Content/kendo/kendo.material.min.css" />
+    <link rel="stylesheet" href="/Content/angular-chart/angular-chart.css" />
+
+
+    <script src="/Content/kendo/kendo.all.min.js"></script>
+    <script src="/Scripts/cultures/kendo.culture.ru-RU.min.js"></script>
+    <script src="/Content/kendo/kendo-elements.js"></script>
+
+    <script src="/Scripts/linq-js/jquery.linq-vsdoc.js"></script>
+    <script src="/Scripts/linq-js/jquery.linq.js"></script>
+    <script src="/Scripts/linq-js/jquery.linq.min.js"></script>
+    <script src="/Scripts/linq-js/linq-vsdoc.js"></script>
+    <script src="/Scripts/linq-js/linq.js"></script>
+
+    <script src="/Content/WrapBootstrap/js/plugins/chartJs/Chart.min.js"></script>
+    <script src="/Scripts/angular-chart/angular-chart.js"></script>
+
+    <script src="/Scripts/arraySort.js"></script>
+
+    <script src="/Scripts/moment.js"></script>
+    <script src="/Scripts/moment-with-locales.js"></script>
+
+    <script src="/Scripts/date.format.js"></script>
+    <script src="/Scripts/date-extensions.js"></script>
+    <script src="/Scripts/elements-script.js"></script>
+
+
+</body>
+
+</html>
