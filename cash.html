@@ -32,45 +32,53 @@
 
 
 
+    
+
+
+
 <div class="margin1" style="position:fixed; top:0; width:100%; background-color:#fff">
-
-    <div style="padding: 15px 0;" ng-cloak>В кэше всего {{lastGpsPointsCache.length}} записей</div>
-
+    <div style="padding: 15px 0;" ng-cloak>В кэше всего {{lastGpsPointsCache.length}} записей</div>    
 </div>
 
+
+<div style="padding: 15px 0;" ng-cloak>В кэше всего {{lastGpsPointsCache.length}} записей</div>
 <div class="table_cash2">
-
     <table>
-    <thead>
-    <tr>
-        <th ng-click="Sort(lastGpsPointsCache, 'OrganisationName')">Организация</th>
-        <th ng-click="Sort(lastGpsPointsCache, 'CarNumber')">Номер машины</th>
-        <th ng-click="Sort(lastGpsPointsCache, 'Imei')">Imei</th>
-        <th ng-click="Sort(lastGpsPointsCache, 'Latitude')">Latitude</th>
-        <th ng-click="Sort(lastGpsPointsCache, 'Longitude')">Longitude</th>
-        <th ng-click="Sort(lastGpsPointsCache, 'Nsat')">Nsat</th>
-        <th ng-click="Sort(lastGpsPointsCache, 'Speed')">Скорость</th>
-        <th ng-click="Sort(lastGpsPointsCache, 'IsHistory')">Архивные пакеты</th>
-        <th ng-click="Sort(lastGpsPointsCache, 'UtcTime')">UtcTime</th>
-        <th ng-click="Sort(lastGpsPointsCache, 'ServerTime')">ServerTime</th>
-    </tr>
-    </thead>
+        <thead>
+        <tr ng-if="lastGpsPointsCache && lastGpsPointsCache.length">
+            <th ng-click="Sort(lastGpsPointsCache, 'OrganisationName')">Организация</th>
+            <th ng-click="Sort(lastGpsPointsCache, 'CarNumber')">Номер машины</th>
+            <th ng-click="Sort(lastGpsPointsCache, 'Imei')">Imei</th>
+            <th ng-click="Sort(lastGpsPointsCache, 'Latitude')">Latitude</th>
+            <th ng-click="Sort(lastGpsPointsCache, 'Longitude')">Longitude</th>
+            <th ng-click="Sort(lastGpsPointsCache, 'Nsat')">Nsat</th>
+            <th ng-click="Sort(lastGpsPointsCache, 'Speed')">Скорость</th>
+            <th ng-click="Sort(lastGpsPointsCache, 'IsHistory')">Архивные пакеты</th>
+            <th ng-click="Sort(lastGpsPointsCache, 'UtcTime')">UtcTime</th>
+            <th ng-click="Sort(lastGpsPointsCache, 'ServerTime')">ServerTime</th>
+        </tr>
+        </thead>
         <tbody>
-    <tr class="{{GetCacheTableTrCssClassByGpsPoint(point)}}" ng-repeat="point in lastGpsPointsCache | orderBy:lastGpsPointsCache.sortField:lastGpsPointsCache.Reverse">
-        <td ng-cloak>{{point.OrganisationName}}</td>
-        <td ng-cloak>{{point.CarNumber | lowercase}}</td>
-        <td ng-cloak>{{point.Imei}}</td>
-        <td ng-cloak>{{point.Latitude}}</td>
-        <td ng-cloak>{{point.Longitude}}</td>
-        <td ng-cloak>{{point.Nsat}}</td>
-        <td ng-cloak>{{point.Speed}}</td>
-        <td ng-cloak>{{point.IsHistory | boolToRussianText}}</td>
-        <td ng-cloak>{{point.UtcTime  | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy'  : '+0600'}}</td>
-        <td ng-cloak>{{point.ServerTime  | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy'}}</td>     
-    </tr>
-            </tbody>
-        </table>
+        <tr class="{{GetCacheTableTrCssClassByGpsPoint(point)}}" ng-repeat="point in lastGpsPointsCache | orderBy:lastGpsPointsCache.sortField:lastGpsPointsCache.Reverse">
+            <td ng-cloak>{{point.OrganisationName}}</td>
+            <td ng-cloak>{{point.CarNumber | lowercase}}</td>
+            <td ng-cloak>{{point.Imei}}</td>
+            <td ng-cloak>{{point.Latitude}}</td>
+            <td ng-cloak>{{point.Longitude}}</td>
+            <td ng-cloak>{{point.Nsat}}</td>
+            <td ng-cloak>{{point.Speed}}</td>
+            <td ng-cloak>{{point.IsHistory | boolToRussianText}}</td>
+            <td ng-cloak>{{point.UtcTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy' : '+0600'}}</td>
+            <td ng-cloak>{{point.ServerTime | aspnetJsonToDate | date: 'HH:mm:ss dd.MM.yyyy'}}</td>
+        </tr>
+        </tbody>
+    </table>
 </div>
+
+
+<script src="/Content/front-content/js/table_cash.js"></script>
+
+    
 
     <script src='/Scripts/angular.js'></script>
 
@@ -129,8 +137,6 @@
     <script src="/Scripts/date.format.js"></script>
     <script src="/Scripts/date-extensions.js"></script>
     <script src="/Scripts/elements-script.js"></script>
-
-    <script src="js/table_cash.js"></script>
 
 
 </body>
